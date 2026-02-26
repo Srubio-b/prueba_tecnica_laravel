@@ -76,6 +76,7 @@ class EntidadController extends Controller
 
         $validatedData = $request->validate([
             'nombre' => 'sometimes|required|string|max:255',
+            'nit'       => 'sometimes|required|string|max:191|unique:entidades,nit,' . $id,
             'direccion' => 'nullable|string|max:255',
             'telefono' => 'nullable|string|max:15',
             'email' => 'nullable|email|max:255',
@@ -102,4 +103,4 @@ class EntidadController extends Controller
         $entidad->delete();
         return response()->json(['message' => 'Entidad eliminada correctamente'], Response::HTTP_OK);
     }
-}
+} 

@@ -6,29 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('contactos', function (Blueprint $table) {
-            $table->id(); // id del contacto
-            $table->string('nombre'); // Nombre del contacto
-            $table->string('email')->nullable(); // Email (opcional)
-            $table->string('telefono')->nullable(); // Teléfono (opcional)
-            $table->string('direccion')->nullable(); // Dirección (opcional)
-            $table->text('notas')->nullable(); // Notas (opcional)
-            $table->unsignedBigInteger('entidad_id'); // Relación con entidades
-            $table->foreign('entidad_id')->references('id')->on('entidades')->onDelete('set null');
-            $table->date('fecha_nacimiento')->nullable(); // Fecha de nacimiento (opcional)
-            $table->unsignedBigInteger('creado_por')->nullable(); // Relación con usuarios (opcional)
-            $table->timestamps(); // created_at y updated_at
+            $table->id();
+            $table->string('nombre');
+            $table->string('identificacion')->unique();
+            $table->string('email')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('direccion')->nullable();
+            $table->text('notas')->nullable();
+            $table->unsignedBigInteger('entidad_id');
+            $table->foreign('entidad_id')
+                  ->references('id')
+                  ->on('entidades')
+                  ->onDelete('cascade');
+            $table->date('fecha_nacimiento')->nullable();
+            $table->unsignedBigInteger('creado_por')->nullable();
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('contactos');
